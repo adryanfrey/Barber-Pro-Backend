@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "clients" ALTER COLUMN "schedule" DROP DEFAULT,
+ALTER COLUMN "schedule" SET DATA TYPE TEXT;

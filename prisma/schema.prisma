@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String 
+  email String  
+  password String
+  address String?
+
+  clients Client[]
+  services Service[]
+  barbers Barber[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("users")
+}
+
+model Service {
+  id String @id @default(uuid())
+  name String 
+  price Float
+  status Boolean
+  user_id String
+
+  clients Client[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("services")
+  user User @relation(fields: [user_id],references: [id])
+}
+
+model Barber{
+  id String @id @default(uuid())
+  name String
+  user_id String
+  clients Client[]
+  status Boolean
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("barbers")
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Client {
+  id String @id @default(uuid())
+  name String 
+  schedule String
+  user_id String
+  service_id String
+  status Boolean
+  barber_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) 
+
+  @@map("clients")
+  user User @relation(fields: [user_id], references: [id])
+  service Service @relation(fields: [service_id], references: [id])
+  barber Barber @relation(fields: [barber_id], references: [id])
+}
