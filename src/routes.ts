@@ -21,8 +21,13 @@ import DeleteClientController from "./controllers/clients/DeleteClientController
 import AddBarberController from "./controllers/barber/AddBarberController";
 import EditBarberController from "./controllers/barber/EditBarberService";
 import ListBarbersController from "./controllers/barber/ListBarbersController";
+import { WelcomeController } from "./controllers/Welcome";
 
 const router = Router()
+
+
+router.get('/', new WelcomeController().handle)
+
 
 // User routes
 
